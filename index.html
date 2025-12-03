@@ -1,551 +1,284 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Happy 16th Anniversary Mom & Dad! ❤️</title>
-    <style>
-        :root {
-            --bg-primary: #ffffff;
-            --bg-secondary: #f8f9fa;
-            --text-primary: #2d3748;
-            --text-secondary: #4a5568;
-            --accent-color: #667eea;
-            --accent-hover: #5a67d8;
-            --border-color: #e2e8f0;
-            --shadow: rgba(0, 0, 0, 0.1);
-            --card-bg: #ffffff;
-            --timeline-line: #e2e8f0;
-        }
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Happy Anniversary</title>
+  <meta name="description" content="A modern, romantic anniversary page" />
 
-        [data-theme="dark"] {
-            --bg-primary: #1a202c;
-            --bg-secondary: #2d3748;
-            --text-primary: #e2e8f0;
-            --text-secondary: #cbd5e0;
-            --accent-color: #667eea;
-            --accent-hover: #5a67d8;
-            --border-color: #4a5568;
-            --shadow: rgba(0, 0, 0, 0.3);
-            --card-bg: #2d3748;
-            --timeline-line: #4a5568;
-        }
+  <!-- Google font -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+  <style>
+    :root{
+      --bg-overlay: rgba(8,6,16,0.45);
+      --accent: #ff6b9a;
+      --accent-2: #ffd6e0;
+      --muted: #b9b6c3;
+      --glass: rgba(255,255,255,0.06);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;
+      color:#fff;
+      background:#0b0710;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+    }
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            background: var(--bg-primary);
-            color: var(--text-primary);
-            line-height: 1.6;
-            transition: background 0.3s ease, color 0.3s ease;
-        }
+    /* full-page hero with background image */
+    .hero{
+      position:relative;
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:3rem 1rem;
+      overflow:hidden;
+    }
 
-        /* Theme Toggle */
-        .theme-toggle {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 1000;
-            background: var(--card-bg);
-            border: 2px solid var(--border-color);
-            border-radius: 50px;
-            padding: 10px 20px;
-            cursor: pointer;
-            box-shadow: 0 2px 10px var(--shadow);
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 1rem;
-            color: var(--text-primary);
-        }
+    /* background images stack: main background + soft vignette */
+    .bg-image{
+      position:absolute;inset:0;background-size:cover;background-position:center;filter:blur(2px) saturate(110%);z-index:0;
+    }
+    /* overlay to keep text legible */
+    .bg-overlay{position:absolute;inset:0;background:linear-gradient(180deg,var(--bg-overlay), rgba(0,0,0,0.6));z-index:1}
 
-        .theme-toggle:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px var(--shadow);
-        }
+    .container{position:relative;z-index:3;max-width:1100px;width:100%;display:grid;grid-template-columns:1fr 420px;gap:28px;align-items:center}
 
-        /* Hero Section */
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 40px 20px;
-            background: var(--bg-secondary);
-            position: relative;
-        }
+    /* left hero content */
+    .content{padding:26px}
+    h1{font-family:'Playfair Display',serif;font-size:3.2rem;margin:0 0 .6rem;line-height:1}
+    p.lead{color:var(--accent-2);margin:0 0 1.2rem;font-size:1.05rem}
+    .message-card{
+      background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
+      border-radius:16px;padding:18px;border:1px solid rgba(255,255,255,0.06);backdrop-filter: blur(6px);
+      box-shadow:0 8px 30px rgba(2,1,6,0.6);
+    }
+    .message{
+      font-size:1rem;color:#fff;opacity:0.95;line-height:1.6
+    }
 
-        .hero h1 {
-            font-size: 3.5rem;
-            color: var(--text-primary);
-            margin-bottom: 20px;
-            font-weight: 700;
-            animation: fadeInDown 1s ease;
-        }
+    .meta{display:flex;gap:10px;margin-top:12px;align-items:center}
+    .meta .pill{background:var(--glass);padding:6px 10px;border-radius:999px;border:1px solid rgba(255,255,255,0.04);font-size:.9rem;color:var(--muted)}
 
-        .anniversary-number {
-            font-size: 8rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, var(--accent-color), #764ba2);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin: 20px 0;
-            animation: fadeIn 1.5s ease;
-        }
+    /* right frame area (decorative frames + slideshow) */
+    .side{
+      display:flex;flex-direction:column;gap:18px;align-items:center
+    }
+    .frames{
+      display:flex;gap:12px;align-items:center;justify-content:center;flex-wrap:wrap
+    }
+    .frame{
+      width:120px;height:120px;border-radius:12px;overflow:hidden;border:4px solid rgba(255,255,255,0.06);background:#111;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 20px rgba(3,1,12,0.5);
+    }
+    .frame img{width:100%;height:100%;object-fit:cover;display:block}
 
-        .hero p {
-            font-size: 1.5rem;
-            color: var(--text-secondary);
-            margin-top: 15px;
-            animation: fadeInUp 1.5s ease;
-        }
+    /* slideshow card */
+    .slideshow{
+      width:420px;max-width:100%;height:260px;border-radius:16px;overflow:hidden;border:1px solid rgba(255,255,255,0.06);position:relative;background:#06040a;
+      box-shadow: 0 18px 50px rgba(2,1,8,0.7);
+    }
+    .slides{position:absolute;inset:0}
+    .slide{position:absolute;inset:0;opacity:0;transition:opacity 1s ease;display:flex;align-items:center;justify-content:center}
+    .slide img{width:100%;height:100%;object-fit:cover}
+    .slide.active{opacity:1}
 
-        .hero .subtitle {
-            font-size: 1.2rem;
-            color: var(--text-secondary);
-            margin-top: 10px;
-        }
+    /* caption overlay */
+    .caption{position:absolute;left:16px;right:16px;bottom:14px;padding:10px;border-radius:10px;background:linear-gradient(180deg, rgba(0,0,0,0.25), rgba(0,0,0,0.4));backdrop-filter: blur(4px);font-size:.95rem}
 
-        @keyframes fadeInDown {
-            from {
-                opacity: 0;
-                transform: translateY(-30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
+    /* controls */
+    .controls{position:absolute;top:12px;right:12px;display:flex;gap:8px}
+    .btn{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.05);padding:8px 12px;border-radius:999px;cursor:pointer;color:#fff;font-weight:600}
 
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
+    /* floating hearts / particles */
+    .particle{
+      position:absolute;width:18px;height:18px;background:var(--accent);transform:rotate(45deg);left:50%;top:50%;opacity:.8;border-radius:3px;mix-blend-mode:screen;z-index:2;
+      animation:floatUp 8s linear infinite;filter:drop-shadow(0 6px 14px rgba(255,107,154,0.12));
+    }
+    .particle:before{content:'';position:absolute;left:0;top:0;width:100%;height:100%;background:linear-gradient(45deg,#ff6b9a,#ffb1c9);border-radius:3px}
+    @keyframes floatUp{
+      0%{transform:translateY(0) rotate(45deg) scale(.8);opacity:0}
+      8%{opacity:1}
+      100%{transform:translateY(-1200px) rotate(25deg) scale(1.2);opacity:0}
+    }
 
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
+    /* responsive */
+    @media (max-width:960px){
+      .container{grid-template-columns:1fr;}
+      .side{order:-1}
+      h1{font-size:2.4rem}
+    }
 
-        /* Container */
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 80px 20px;
-        }
+    /* small nice typography for footer action */
+    footer{position:relative;z-index:3;padding:18px;text-align:center;color:var(--muted);font-size:.95rem}
 
-        .section-title {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: var(--text-primary);
-            margin-bottom: 50px;
-            text-align: center;
-        }
-
-        /* Timeline */
-        .timeline {
-            position: relative;
-            padding: 20px 0;
-        }
-
-        .timeline::before {
-            content: '';
-            position: absolute;
-            left: 30px;
-            top: 0;
-            bottom: 0;
-            width: 2px;
-            background: var(--timeline-line);
-        }
-
-        .timeline-item {
-            position: relative;
-            padding-left: 70px;
-            margin-bottom: 50px;
-            animation: slideIn 0.8s ease;
-        }
-
-        .timeline-item:hover .timeline-content {
-            transform: translateX(5px);
-        }
-
-        .timeline-dot {
-            position: absolute;
-            left: 22px;
-            top: 0;
-            width: 18px;
-            height: 18px;
-            background: var(--accent-color);
-            border-radius: 50%;
-            border: 3px solid var(--bg-primary);
-            box-shadow: 0 0 0 4px var(--border-color);
-        }
-
-        .timeline-content {
-            background: var(--card-bg);
-            padding: 25px;
-            border-radius: 12px;
-            border: 1px solid var(--border-color);
-            box-shadow: 0 2px 10px var(--shadow);
-            transition: all 0.3s ease;
-        }
-
-        .timeline-content:hover {
-            box-shadow: 0 4px 20px var(--shadow);
-        }
-
-        .timeline-content h3 {
-            color: var(--accent-color);
-            font-size: 1.5rem;
-            margin-bottom: 10px;
-            font-weight: 600;
-        }
-
-        .timeline-content p {
-            color: var(--text-secondary);
-            line-height: 1.7;
-            font-size: 1.05rem;
-        }
-
-        .timeline-photo {
-            margin-top: 15px;
-            border-radius: 8px;
-            overflow: hidden;
-        }
-
-        .timeline-photo img {
-            width: 100%;
-            height: auto;
-            display: block;
-            transition: transform 0.3s ease;
-        }
-
-        .timeline-photo:hover img {
-            transform: scale(1.05);
-        }
-
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateX(-30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        /* Love Message */
-        .love-message {
-            background: var(--card-bg);
-            padding: 50px 40px;
-            border-radius: 12px;
-            border: 1px solid var(--border-color);
-            box-shadow: 0 2px 15px var(--shadow);
-            text-align: center;
-            margin-top: 60px;
-        }
-
-        .love-message h3 {
-            color: var(--accent-color);
-            font-size: 2rem;
-            margin-bottom: 20px;
-            font-weight: 600;
-        }
-
-        .love-message p {
-            color: var(--text-secondary);
-            font-size: 1.15rem;
-            line-height: 1.8;
-            margin-bottom: 20px;
-        }
-
-        .love-message .highlight {
-            font-weight: 600;
-            color: var(--accent-color);
-            font-size: 1.3rem;
-        }
-
-        /* Button */
-        .celebrate-btn {
-            display: inline-block;
-            padding: 15px 35px;
-            background: var(--accent-color);
-            color: white;
-            font-size: 1.1rem;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
-            transition: all 0.3s ease;
-            text-decoration: none;
-            margin-top: 30px;
-            font-weight: 600;
-        }
-
-        .celebrate-btn:hover {
-            background: var(--accent-hover);
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
-        }
-
-        /* Footer */
-        .footer {
-            text-align: center;
-            padding: 40px 20px;
-            color: var(--text-secondary);
-            font-size: 0.95rem;
-        }
-
-        .footer a {
-            color: var(--accent-color);
-            text-decoration: none;
-        }
-
-        .footer a:hover {
-            text-decoration: underline;
-        }
-
-        /* Confetti */
-        .confetti {
-            position: fixed;
-            width: 10px;
-            height: 10px;
-            background: #f0f;
-            animation: confetti-fall 3s linear forwards;
-            z-index: 9999;
-            pointer-events: none;
-        }
-
-        @keyframes confetti-fall {
-            to {
-                transform: translateY(100vh) rotate(360deg);
-                opacity: 0;
-            }
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 2.5rem;
-            }
-
-            .anniversary-number {
-                font-size: 5rem;
-            }
-
-            .hero p {
-                font-size: 1.2rem;
-            }
-
-            .section-title {
-                font-size: 2rem;
-            }
-
-            .timeline::before {
-                left: 20px;
-            }
-
-            .timeline-item {
-                padding-left: 50px;
-            }
-
-            .timeline-dot {
-                left: 12px;
-            }
-
-            .love-message {
-                padding: 35px 25px;
-            }
-
-            .theme-toggle {
-                top: 10px;
-                right: 10px;
-                padding: 8px 15px;
-                font-size: 0.9rem;
-            }
-        }
-    </style>
+  </style>
 </head>
-
 <body>
-    <button class="theme-toggle" onclick="toggleTheme()">
-        <span id="theme-icon">🌙</span>
-        <span id="theme-text">Dark</span>
-    </button>
 
-    <div class="hero">
-        <h1>Happy Anniversary</h1>
-        <div class="anniversary-number">16</div>
-        <p>Years of Love, Laughter, and Memories</p>
-        <p class="subtitle">Mom & Dad ❤️</p>
-    </div>
+  <main class="hero" role="main">
+
+    <!-- Background images: replace paths in CSS or here -->
+    <div class="bg-image" style="background-image: url('images/bg-hero.jpg');"></div>
+    <div class="bg-overlay"></div>
+
+    <!-- floating particles - hearts (generated by JS) -->
 
     <div class="container">
-        <h2 class="section-title">Our Journey Together</h2>
-        <div class="timeline">
-            <div class="timeline-item">
-                <div class="timeline-dot"></div>
-                <div class="timeline-content">
-                    <h3>2009 - The Beginning</h3>
-                    <p>Where it all started - two hearts became one. A promise of forever, a journey of love began on this beautiful day.</p>
-                    <div class="timeline-photo">
-                        <img src="https://i.postimg.cc/rsT5jB3v/image3.jpg" alt="Mom and Dad - Beautiful celebration">
-                    </div>
-                </div>
-            </div>
+      <section class="content">
+        <h1>Happy Anniversary, My Love</h1>
+        <p class="lead">A little place where I keep our memories — made with love, for you.</p>
 
-            <div class="timeline-item">
-                <div class="timeline-dot"></div>
-                <div class="timeline-content">
-                    <h3>Early Years - Building Dreams</h3>
-                    <p>Together you built a home filled with love, laughter, and endless support for each other. Every challenge made you stronger.</p>
-                    <div class="timeline-photo">
-                        <img src="https://i.postimg.cc/PrGHB9Dt/image1.jpg" alt="Mom and Dad - Early years together">
-                    </div>
-                </div>
-            </div>
+        <div class="message-card">
+          <div class="message" id="typedMessage">
+            <!-- Typing text filled by JS -->
+          </div>
 
-            <div class="timeline-item">
-                <div class="timeline-dot"></div>
-                <div class="timeline-content">
-                    <h3>Growing Family & Adventures</h3>
-                    <p>The family grew, and so did the love. From traditional celebrations to new experiences, you've created countless memories together.</p>
-                    <div class="timeline-photo">
-                        <img src="https://i.postimg.cc/zfGBdPwk/image2.jpg" alt="Mom and Dad - Traditional moments">
-                    </div>
-                </div>
-            </div>
+          <div class="meta">
+            <div class="pill">Together since <strong>2021</strong></div>
+            <div class="pill">Forever &amp; Always</div>
+          </div>
 
-            <div class="timeline-item">
-                <div class="timeline-dot"></div>
-                <div class="timeline-content">
-                    <h3>Cherished Moments</h3>
-                    <p>Through every season, every celebration, and every quiet moment at home - your love has been the constant that holds everything together.</p>
-                    <div class="timeline-photo">
-                        <img src="https://i.postimg.cc/SxP6XxZd/image4.jpg" alt="Mom and Dad - Special occasions">
-                    </div>
-                </div>
-            </div>
-
-            <div class="timeline-item">
-                <div class="timeline-dot"></div>
-                <div class="timeline-content">
-                    <h3>2025 - 16 Years Strong</h3>
-                    <p>Today we celebrate 16 wonderful years of your love story. Here's to many more years of happiness, health, and togetherness!</p>
-                </div>
-            </div>
         </div>
 
-        <div class="love-message">
-            <h3>A Message of Love</h3>
-            <p>
-                Mom and Dad, watching your love grow stronger with each passing year has been the greatest gift.
-                You've shown us what true commitment, partnership, and unconditional love look like.
-            </p>
-            <p>
-                Thank you for being the perfect example of what marriage should be - filled with laughter,
-                support, understanding, and endless love.
-            </p>
-            <p>
-                Here's to 16 amazing years and to countless more filled with joy, health, and happiness.
-                We love you both so much! ❤️
-            </p>
-            <p class="highlight">Happy 16th Anniversary!</p>
-            <button class="celebrate-btn" onclick="celebrate()">🎉 Celebrate! 🎉</button>
+        <div style="height:18px"></div>
+
+        <div class="message-card" style="display:flex;gap:10px;align-items:center;justify-content:space-between">
+          <div style="flex:1">
+            <strong style="display:block;margin-bottom:6px">A surprise for you</strong>
+            <span style="display:block;color:var(--muted)">Click the button to reveal a message and play a soft song.</span>
+          </div>
+          <div>
+            <button class="btn" id="revealBtn" aria-controls="revealArea">Open</button>
+          </div>
         </div>
+
+        <div id="revealArea" style="margin-top:12px;display:none" class="message-card">
+          <p style="margin:0;font-size:1rem">You are my home. I love every laugh, every silence, every shared glance. Here's to us, today and always.</p>
+        </div>
+
+      </section>
+
+      <aside class="side">
+        <!-- decorative small frames -->
+        <div class="frames" aria-hidden="true">
+          <div class="frame"><img src="images/frame1.jpg" alt="frame photo 1" /></div>
+          <div class="frame"><img src="images/frame2.jpg" alt="frame photo 2" /></div>
+          <div class="frame"><img src="images/frame3.jpg" alt="frame photo 3" /></div>
+        </div>
+
+        <!-- slideshow (single slide deck, NOT a gallery) -->
+        <div class="slideshow" aria-roledescription="carousel">
+          <div class="slides" id="slides">
+            <div class="slide active"><img src="images/slide1.jpg" alt="slideshow 1"/></div>
+            <div class="slide"><img src="images/slide2.jpg" alt="slideshow 2"/></div>
+            <div class="slide"><img src="images/slide3.jpg" alt="slideshow 3"/></div>
+          </div>
+
+          <div class="caption" id="slideCaption">Our story — hold my hand.</div>
+
+          <div class="controls">
+            <button class="btn" id="prev">◀</button>
+            <button class="btn" id="next">▶</button>
+          </div>
+        </div>
+
+      </aside>
     </div>
 
-    <div class="footer">
-        <p>Made with ❤️ by <a href="https://kaustup.github.io" target="_blank">Kaustup</a></p>
-    </div>
+    <footer>Designed with ❤ — Replace the images inside <code>/images/</code> to personalize.</footer>
+  </main>
 
-    <script>
-        // Theme Toggle
-        function toggleTheme() {
-            const html = document.documentElement;
-            const currentTheme = html.getAttribute('data-theme');
-            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-            
-            html.setAttribute('data-theme', newTheme);
-            localStorage.setItem('theme', newTheme);
-            
-            const icon = document.getElementById('theme-icon');
-            const text = document.getElementById('theme-text');
-            
-            if (newTheme === 'dark') {
-                icon.textContent = '☀️';
-                text.textContent = 'Light';
-            } else {
-                icon.textContent = '🌙';
-                text.textContent = 'Dark';
-            }
-        }
+  <!-- optional audio (user can toggle) -->
+  <audio id="bgAudio" loop preload="none" src="audio/soft-melody.mp3"></audio>
 
-        // Load saved theme
-        const savedTheme = localStorage.getItem('theme') || 'light';
-        document.documentElement.setAttribute('data-theme', savedTheme);
-        
-        if (savedTheme === 'dark') {
-            document.getElementById('theme-icon').textContent = '☀️';
-            document.getElementById('theme-text').textContent = 'Light';
-        }
+  <script>
+    // Typing message text (simple typewriter)
+    const text = [
+      "Every moment with you feels like a beautiful song.",
+      "You are my favorite hello and my hardest goodbye.",
+      "For the rest of my days, I choose you — again and again."
+    ];
+    const target = document.getElementById('typedMessage');
+    let idx=0; let chr=0; let forward=true;
+    function typeLoop(){
+      const str = text[idx];
+      if(forward){
+        target.textContent = str.slice(0, chr+1);
+        chr++;
+        if(chr===str.length){ forward=false; setTimeout(typeLoop,1600); return }
+      } else {
+        target.textContent = str.slice(0, chr-1);
+        chr--;
+        if(chr===0){ forward=true; idx=(idx+1)%text.length }
+      }
+      setTimeout(typeLoop, 90 + Math.random()*40);
+    }
+    typeLoop();
 
-        // Celebration function
-        function celebrate() {
-            for (let i = 0; i < 100; i++) {
-                setTimeout(() => {
-                    const confetti = document.createElement('div');
-                    confetti.className = 'confetti';
-                    confetti.style.left = Math.random() * 100 + 'vw';
-                    confetti.style.top = '-10px';
-                    confetti.style.background = `hsl(${Math.random() * 360}, 100%, 50%)`;
-                    confetti.style.animationDelay = Math.random() * 0.5 + 's';
-                    document.body.appendChild(confetti);
+    // slideshow logic
+    const slides = Array.from(document.querySelectorAll('.slide'));
+    const captions = ["Our story — hold my hand.", "Where every day feels like sunshine.", "To the places we will go together."];
+    let current = 0; let slideTimer;
+    function showSlide(i){
+      slides.forEach((s,ii)=> s.classList.toggle('active', ii===i));
+      document.getElementById('slideCaption').textContent = captions[i] || '';
+      current = i;
+    }
+    function nextSlide(){ showSlide((current+1)%slides.length); }
+    function prevSlide(){ showSlide((current-1+slides.length)%slides.length); }
+    document.getElementById('next').addEventListener('click', ()=>{ nextSlide(); resetTimer(); });
+    document.getElementById('prev').addEventListener('click', ()=>{ prevSlide(); resetTimer(); });
+    function resetTimer(){ clearInterval(slideTimer); slideTimer = setInterval(nextSlide, 4200); }
+    resetTimer();
 
-                    setTimeout(() => {
-                        confetti.remove();
-                    }, 3000);
-                }, i * 30);
-            }
+    // reveal area + audio play
+    const revealBtn = document.getElementById('revealBtn');
+    const revealArea = document.getElementById('revealArea');
+    const bgAudio = document.getElementById('bgAudio');
+    revealBtn.addEventListener('click', ()=>{
+      if(revealArea.style.display === 'none' || revealArea.style.display === ''){
+        revealArea.style.display = 'block';
+        revealBtn.textContent = 'Close';
+        // attempt to play audio (will require user gesture)
+        bgAudio.play().catch(()=>{});
+      } else {
+        revealArea.style.display = 'none';
+        revealBtn.textContent = 'Open';
+        bgAudio.pause();
+      }
+    });
 
-            alert('🎉🎊 Happy 16th Anniversary Mom & Dad! 🎊🎉\n\nMay your love continue to grow stronger with each passing day!');
-        }
+    // generate floating particles (hearts) dynamically
+    function spawnParticles(){
+      const count = 8;
+      for(let i=0;i<count;i++){
+        const el = document.createElement('div');
+        el.className='particle';
+        const size = 8 + Math.random()*26;
+        el.style.width = size + 'px'; el.style.height = size + 'px';
+        el.style.left = Math.random()*100 + '%';
+        el.style.top = 90 + Math.random()*30 + '%';
+        el.style.animationDuration = (6 + Math.random()*6) + 's';
+        el.style.opacity = (0.4 + Math.random()*0.9);
+        document.body.appendChild(el);
+        setTimeout(()=> el.remove(), 14000);
+      }
+    }
+    setInterval(spawnParticles, 1500);
 
-        // Smooth reveal on scroll
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
+    // accessibility: pause animations when user prefers reduced motion
+    if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+      document.querySelectorAll('.particle').forEach(p=>p.style.animation='none');
+    }
 
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateX(0)';
-                }
-            });
-        }, observerOptions);
+    // small helpful note: if images are missing, keep placeholder colors
+    // Replace files in /images/ (bg-hero.jpg, frame1.jpg, frame2.jpg, frame3.jpg, slide1.jpg, slide2.jpg, slide3.jpg)
 
-        document.querySelectorAll('.timeline-item').forEach(el => {
-            el.style.opacity = '0';
-            observer.observe(el);
-        });
-    </script>
+  </script>
+
 </body>
 </html>
